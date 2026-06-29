@@ -95,3 +95,23 @@ def date_todo(todo_id:int, title:str, db: Session = Depends(get_db)):
         "message":"Todo Updated",
         "data":todo
     }
+
+# Delete API
+@app.delete("/todos/{todo_id}")
+def delete_todo(todo_id:int, db: Session = Depends(get_db)):
+    todo = db.query(Todo).filter(Todo.id == todo_id).first()
+
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo Not Found")
+
+
+    db.delete(todo)
+    db.commit()
+
+    return{
+        "message":"TODO Delet4ed"
+    }
+
+
+
+
